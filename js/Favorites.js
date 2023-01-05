@@ -1,26 +1,35 @@
+export class GithubUser {
+  static search(username){
+    const endpoint = `https://api.github.com/users/${username}`
+
+    //com o fetch é preciso tornar em JSON pois é retornado dados em string
+    return fetch(endpoint)
+    .then(data => data.json())
+    .then(
+      ({login, name, public_repos, followers}) => (
+        {
+          login,
+          name,
+          public_repos,
+          followers
+        })
+    )
+  }
+}
+
 // classe que vai conter a lógica dos dados
 // como os dados serão estruturados
 export class Favorites {
   constructor(root) {
     this.root = document.querySelector(root)
     this.load()
+
+    GithubUser.search('thayna-bezerra').then(user => console.log(user))
   }
 
   load() {
-    this.entries = [
-      {
-        login: 'thayna-bezerra',
-        name: "Thayna Bezerra",
-        public_repos: '76',
-        followers: '120000'
-      },
-      {
-        login: 'thayna-bezerra',
-        name: "Thayna Bezerra",
-        public_repos: '76',
-        followers: '120000'
-      }
-    ]
+    this.entries = JSON.parse(localStorage.getItem
+      ('@github-favorites')) || []
   }
 
   delete(user) { 
@@ -28,9 +37,11 @@ export class Favorites {
       .filter(entry => entry.login !== user.login)  //recriando o array e verificando o que tem dentro
      //se retornar falso vai eliminar do array //se true, coloca no array
 
-    console.log(filteredEntries)
+    this.entries = filteredEntries //colocando a nova const no entries
+    this.update() //depois que deletar.. atualizar aplicação
   }
 }
+
 // classe que vai criar a visualização e eventos do HTML
 export class FavoritesView extends Favorites {
   constructor(root) {
