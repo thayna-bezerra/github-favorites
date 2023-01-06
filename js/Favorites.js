@@ -23,19 +23,31 @@ export class Favorites {
   constructor(root) {
     this.root = document.querySelector(root)
     this.load()
-
-    GithubUser.search('thayna-bezerra').then(user => console.log(user))
   }
 
   load() {
-    this.entries = JSON.parse(localStorage.getItem
-      ('@github-favorites')) || []
+    this.entries = JSON.parse(localStorage.getItem('@github-favorites')) || []
+  }
+
+  save() {
+    localStorage.setItem('@github-favorites', JSON.stringify(this.entries)) //transforma o array cheio de objetos em formato de json
   }
 
   async add(username){
-    const user = await GithubUser.search(username) //esperar uma promessa
+    try{
+      const user = await GithubUser.search(username) //esperar uma promessa
+  
+      if(user.login === undefined) {
+        throw new Error('Usuario não encontrado!')
+      } 
+  
+      this.entries = [user, ...this.entries] //espalhando 
+      this.update()
+      this.save()
 
-    console.log(user) 
+    } catch(error) {
+      alert(error.message)
+    }
   }
 
   delete(user) { 
@@ -45,6 +57,7 @@ export class Favorites {
 
     this.entries = filteredEntries //colocando a nova const no entries
     this.update() //depois que deletar.. atualizar aplicação
+    this.save()
   }
 }
 
