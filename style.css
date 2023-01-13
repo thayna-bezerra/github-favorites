@@ -17,7 +17,7 @@
 body {
   font-size: 1.6rem;
   color: var(--text-color);
-  background-color: rgb(234, 252, 252);
+  background-color: black;
 }
 
 body * {
@@ -38,7 +38,7 @@ body * {
 
 #app {
   padding: 2rem;
-  max-width: 500px;
+  max-width: 1120px;
   margin: 0 auto;
 }
 
@@ -47,12 +47,7 @@ header {
   align-items: center;
   justify-content: space-between;
 
-  margin: 2.5rem 0;
-}
-
-header h1{
-  font-size: 2rem;
-  text-transform: uppercase;
+  margin: 6.0rem 0 7.0rem 0;
 }
 
 .search {
@@ -61,24 +56,48 @@ header h1{
 }
 
 .search input{
-  height: 3.2rem;
-  border: 1px solid #ccc;
-  border-radius: .4rem 0 0 .4rem;
-  padding: 0 .8rem;
+  width: 46.2rem;
+  height: 4.8rem;
+  background-color: #06181C;
+
+  border: none;
+  border-radius: .4rem;
+
+  margin-right: 9px;
+
+  padding: 0 1.6rem;
+  color: white;
 }
 
 .search button {
-  background-color: var(--primary-color);
-  border-radius: 0 .4rem .4rem 0;
-  height: 3.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 1.0rem;
+
+  background-color: #065E7C;
+  height: 4.8rem;
+  width: 17.0rem;
+
   border: none;
-  padding: 0 1rem;
+  border-radius: .4rem;
+
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: white;
 
   cursor: pointer;
+
 }
 
-.search button:hover {
-  filter: brightness(1.1);
+.search button:hover{
+  background-color: white;
+  color: #065E7C;  
+}
+
+.search button:hover svg path{
+  fill: #065E7C;
 }
 
 table{
