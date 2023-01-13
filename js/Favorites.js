@@ -6,6 +6,7 @@ export class Favorites {
   constructor(root) {
     this.root = document.querySelector(root)
     this.load()
+
   }
 
   load() {
@@ -47,6 +48,7 @@ export class Favorites {
     this.entries = filteredEntries //colocando a nova const no entries
     this.update() //depois que deletar.. atualizar aplicação
     this.save()
+    
   }
 }
 
@@ -59,6 +61,7 @@ export class FavoritesView extends Favorites {
 
     this.update()
     this.onadd()
+    
   }
 
   onadd() {
@@ -73,9 +76,14 @@ export class FavoritesView extends Favorites {
   update()   {
     this.removeAllTr()
 
+    if(this.entries.length === 0){
+      this.emptyTable()
+      console.log("não tem nada aqui", this.entries)
+    }
+
     this.entries.forEach(user => {  //rodar uma função para cada um
       const row = this.createRow()
-
+      
       row.querySelector('.user img').src = `https://github.com/${user.login}.png`
       row.querySelector('.user img').alt = `Imagem de ${user.name}`
       row.querySelector('.user a').href = `https://github.com/${user.login}`
@@ -83,23 +91,39 @@ export class FavoritesView extends Favorites {
       row.querySelector('.user span').textContent = user.login
       row.querySelector('.repositories').textContent = user.public_repos
       row.querySelector('.followers').textContent = user.followers
-
+      
       row.querySelector('.remove').onclick = () => {
         const isOk = confirm("Tem certeza que deseja deletar essa linha?")
-
+        
         if(isOk){
           this.delete(user)
         }
       }
-
 
       this.tbody.append(row)
     })
   }
 
   createRow(){
-    const tr = document.createElement('tr')
+    const tr = document.createElement('tr') //vai criar linha
 
+    tr.innerHTML = `
+    <td class="user">
+      <img src="" alt="">
+      <a href="" target="_blank">
+        <p></p>
+        <span></span>
+      </a>
+    </td>
+    <td class="repositories">
+    </td>
+    <td class="followers">
+    </td>
+    <td>
+      <button class="remove">Remove</button>
+    </td>
+  `
+/*
     tr.innerHTML = `
       <td class="user">
         <img src="https://github.com/thayna-bezerra.png" alt="imagem de thayna-bezerra">
@@ -115,11 +139,15 @@ export class FavoritesView extends Favorites {
         9598
       </td>
       <td>
-        <button class="remove">&times;</button>
+        <button class="remove">Remove</button>
       </td>
-    `
-
+    `*/
     return tr
+  }
+
+  emptyTable(){
+    const emptyBox = document.querySelector("#empty");
+    emptyBox.innerHTML = "<tr> Nenhum favorito ainda </tr>"
   }
 
   removeAllTr(){
@@ -128,6 +156,4 @@ export class FavoritesView extends Favorites {
         tr.remove()
       })
   }
-
-
 }
