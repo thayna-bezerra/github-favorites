@@ -135,9 +135,9 @@ table tr:nth-child(odd){
   background-color: #06161b7e;
 }
 
-table{
+/*table{
   border: 0.5px  solid #4A808C;
-}
+}*/
 
 table td{
   padding: 1.5rem;

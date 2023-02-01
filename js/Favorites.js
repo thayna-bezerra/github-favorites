@@ -6,7 +6,6 @@ export class Favorites {
   constructor(root) {
     this.root = document.querySelector(root)
     this.load()
-
   }
 
   load() {
@@ -19,6 +18,7 @@ export class Favorites {
 
   async add(username){
     try{
+  
       const userExists = this.entries.find(entry => entry.login === username) //verificar se a entrada ja existe
 
       if(userExists) {
@@ -30,7 +30,8 @@ export class Favorites {
       if(user.login === undefined) {
         throw new Error('Usuario não encontrado!')
       } 
-  
+
+
       this.entries = [user, ...this.entries] //espalhando 
       this.update()
       this.save()
@@ -76,11 +77,6 @@ export class FavoritesView extends Favorites {
   update()   {
     this.removeAllTr()
 
-    if(this.entries.length === 0){
-      this.emptyTable()
-      console.log("não tem nada aqui", this.entries)
-    }
-
     this.entries.forEach(user => {  //rodar uma função para cada um
       const row = this.createRow()
       
@@ -102,6 +98,10 @@ export class FavoritesView extends Favorites {
 
       this.tbody.append(row)
     })
+
+    if(this.entries.length === 0){
+      console.log("não tem nada aqui", this.entries)
+    }
   }
 
   createRow(){
@@ -123,31 +123,7 @@ export class FavoritesView extends Favorites {
       <button class="remove">Remove</button>
     </td>
   `
-/*
-    tr.innerHTML = `
-      <td class="user">
-        <img src="https://github.com/thayna-bezerra.png" alt="imagem de thayna-bezerra">
-        <a href="https://github.com/thayna-bezerra" target="_blank">
-          <p>Thayna Bezerra</p>
-          <span>thayna-bezerra</span>
-        </a>
-      </td>
-      <td class="repositories">
-        76
-      </td>
-      <td class="followers">
-        9598
-      </td>
-      <td>
-        <button class="remove">Remove</button>
-      </td>
-    `*/
     return tr
-  }
-
-  emptyTable(){
-    const emptyBox = document.querySelector("#empty");
-    emptyBox.innerHTML = "<tr> Nenhum favorito ainda </tr>"
   }
 
   removeAllTr(){
